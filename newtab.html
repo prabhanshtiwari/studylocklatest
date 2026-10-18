@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <title>Study Lock — Learning Dashboard</title>
+  <link rel="stylesheet" href="newtab.css">
+</head>
+<body>
+  <div class="ambient ambient-a"></div><div class="ambient ambient-b"></div>
+  <header class="topbar">
+    <a class="brand" href="#top" aria-label="Study Lock home"><span class="brand-icon"><i></i><i></i><i></i></span><span><b>STUDY LOCK</b><small>One lesson. One clear goal.</small></span></a>
+    <div class="top-right"><span id="statusPill" class="status-pill"><span class="dot"></span><span id="statusText">READY TO FOCUS</span></span><span id="clock" class="clock">--:--</span></div>
+  </header>
+  <main id="top">
+    <section class="hero-grid">
+      <div class="hero-copy">
+        <p class="eyebrow">YOUR PERSONAL LEARNING SPACE</p>
+        <h1>Make this tab<br><span>count.</span></h1>
+        <p class="hero-lead">Choose one YouTube lesson or playlist. Study Lock puts the native YouTube player first, blocks normal browsing during a session, and keeps your progress, notes, and learning reports together.</p>
+        <div class="hero-points"><span><i>✓</i> Native YouTube playback</span><span><i>✓</i> Watch-coverage tracking</span><span><i>✓</i> Saved notes and reports</span><span><i>✓</i> Active recall and planning</span></div>
+        <div id="activeNotice" class="active-notice" hidden><div class="active-notice-icon">▶</div><div><b>A study session is already active.</b><p>Opening the active lesson and its analytics…</p></div><button id="resumeButton" class="button secondary" type="button">Open lesson</button></div>
+        <div id="resumeSavedNotice" class="active-notice resume-saved-notice" hidden><div class="active-notice-icon">↻</div><div><b>Pick up where you paused.</b><p id="resumeSavedText">Your unfinished lesson and watch progress are saved.</p></div><button id="resumeSavedButton" class="button secondary" type="button">Resume lesson</button></div>
+      </div>
+      <form id="setupForm" class="setup-card">
+        <div class="card-heading"><span class="card-icon">▶</span><div><h2>Choose your lesson</h2><p>Progress stays on this device.</p></div></div>
+        <label for="youtubeUrl">YouTube video or playlist URL</label>
+        <input id="youtubeUrl" name="youtubeUrl" type="url" placeholder="https://www.youtube.com/watch?v=…" required autocomplete="off" spellcheck="false">
+        <div class="form-row"><div class="field"><label for="mode">Session type</label><select id="mode" name="mode"><option value="video">Single video</option><option value="playlist">Playlist</option></select></div><div class="speed-card"><span class="speed-icon">1×</span><span><small>PLAYBACK</small><b>Normal speed</b></span></div></div>
+        <label class="check-row"><input id="closeOtherTabs" type="checkbox"><span><b>Close other open tabs</b><small>Optional. Save unsaved work first; closed tabs may not be recoverable.</small></span></label>
+        <div class="note-card"><span>ⓘ</span><p>The lesson opens on YouTube's native watch page, with Study Lock analytics in the same tab. Some private or embedding-restricted videos may still be unavailable due to YouTube rules.</p></div>
+        <button id="startButton" class="button primary" type="submit">Start learning session <span>↗</span></button>
+        <p id="setupError" class="error" role="alert" aria-live="polite"></p>
+      </form>
+    </section>
+
+    <section class="stats-section">
+      <div class="section-intro"><div><p class="eyebrow">CONSISTENCY OVER INTENSITY</p><h2>Your learning pulse</h2><p>Measure the time you have actually covered, not just the time a tab stayed open.</p></div><button id="exportButton" type="button" class="button secondary">Export report ↓</button></div>
+      <div class="stat-cards">
+        <article class="stat-card"><span class="stat-label">QUALIFYING STUDY TODAY</span><div><strong id="todayTime">0m</strong><span id="todayGoalText">of 120m goal</span></div><div class="mini-track"><i id="goalFill"></i></div><small id="goalCaption">0% of your daily target</small></article>
+        <article class="stat-card"><span class="stat-label">CURRENT STREAK</span><div><strong id="streakCount">0 days</strong><span>daily consistency</span></div><div id="streakCaption" class="stat-caption">Start your streak today.</div></article>
+        <article class="stat-card"><span class="stat-label">LIFETIME COVERAGE</span><div><strong id="lifetimeTime">0h</strong><span>unique video ranges</span></div><div class="stat-caption">Rewatching the same range does not inflate coverage.</div></article><article class="stat-card"><span class="stat-label">UNIQUE COVERAGE TODAY</span><div><strong id="coverageToday">0m</strong><span>covered duration</span></div><div class="stat-caption">Unique ranges covered; rewatching does not add coverage.</div></article>
+        <article class="stat-card"><span class="stat-label">SESSIONS SAVED</span><div><strong id="sessionsCount">0</strong><span>learning reports</span></div><div class="stat-caption">Each report includes notes and bookmarks.</div></article>
+      </div>
+    </section>
+
+    <section class="panel social-panel">
+      <div class="panel-heading"><div><p class="eyebrow">OPTIONAL COMMUNITY</p><h2>Study Lock Social</h2><p class="muted-copy">Join leaderboards, make friends, and take on study challenges. Community accounts and sharing are optional.</p></div><span class="panel-badge">ONLINE COMMUNITY</span></div>
+      <div class="social-grid">
+        <form id="socialAuthForm" class="tool-form">
+          <div class="field"><label for="socialApiBase">Backend URL (your Render URL)</label><input id="socialApiBase" type="url" placeholder="https://your-service.onrender.com" required></div>
+          <div class="form-row"><div class="field"><label for="socialEmailOrUsername">Email or username</label><input id="socialEmailOrUsername" autocomplete="username" required maxlength="254"></div><div class="field"><label for="socialPassword">Password</label><input id="socialPassword" type="password" autocomplete="current-password" required minlength="10"></div></div>
+          <div id="socialRegisterFields" hidden><div class="form-row"><div class="field"><label for="socialDisplayName">Display name</label><input id="socialDisplayName" maxlength="60"></div><div class="field"><label for="socialUsername">Username</label><input id="socialUsername" maxlength="24" pattern="[A-Za-z0-9_]+"></div></div><div class="field"><label for="socialEmail">Email for new account</label><input id="socialEmail" type="email" maxlength="254"></div><label class="check-row compact"><input id="socialJoinLeaderboard" type="checkbox"><span><b>Opt in to public leaderboard</b><small>Optional; you can change this later.</small></span></label><label class="check-row compact"><input id="socialAcceptTerms" type="checkbox"><span><b>I accept the community rules and privacy notice</b><small>Required to create an account. The links are available in the Social Portal.</small></span></label></div>
+          <div class="button-pair"><button class="button primary" type="button" id="socialLoginButton">Sign in & connect</button><button class="button secondary" type="button" id="socialShowRegisterButton">Create account</button></div>
+          <div class="button-pair" id="socialRegisterActions" hidden><button class="button primary" type="button" id="socialRegisterButton">Create & connect</button><button class="button quiet" type="button" id="socialCancelRegisterButton">Cancel</button></div>
+          <p id="socialStatus" class="success-message" aria-live="polite"></p>
+        </form>
+        <div class="social-side"><div id="socialConnectedState" class="social-connected" hidden><span class="social-connected-icon">✓</span><div><b id="socialConnectedName">Connected</b><small id="socialConnectedUsername"></small></div></div><p class="muted-copy">When connected, completed or ended study sessions are sent to your account for leaderboard points. Your email and local notes are not published. Use the Social Portal to manage your profile, friends, privacy, messages, and challenges.</p><div class="button-pair"><button id="socialOpenPortalButton" class="button secondary" type="button">Open Social Portal ↗</button><button id="socialSyncNowButton" class="button secondary" type="button">Sync saved sessions</button><button id="socialDisconnectButton" class="button quiet" type="button">Disconnect</button></div></div>
+      </div>
+    </section>
+
+    <section class="lower-grid">
+      <article class="panel activity-panel"><div class="panel-heading"><div><p class="eyebrow">LAST 7 DAYS</p><h2>Study activity</h2></div><span class="panel-badge">LOCAL DATA</span></div><div class="week-chart" id="weekChart" aria-label="Study minutes over the past seven days"></div><div class="chart-foot"><span>Qualifying playback time</span><span id="weekTotal">0 minutes this week</span></div></article>
+      <article class="panel settings-panel"><div class="panel-heading"><div><p class="eyebrow">MAKE IT YOURS</p><h2>Study preferences</h2></div></div>
+        <form id="settingsForm">
+          <div class="field"><label for="dailyGoalMinutes">Daily study target (minutes)</label><input id="dailyGoalMinutes" type="number" min="15" max="1440" step="15" value="120" required></div>
+          <label class="check-row compact"><input id="breakEnabled" type="checkbox"><span><b>Enable break reminders</b><small>Pause and prompt for a short reset after sustained study.</small></span></label>
+          <div class="form-row"><div class="field"><label for="breakEveryMinutes">Study interval (min)</label><input id="breakEveryMinutes" type="number" min="15" max="240" step="5" value="50"></div><div class="field"><label for="breakLengthMinutes">Break length (min)</label><input id="breakLengthMinutes" type="number" min="1" max="30" value="5"></div></div>
+          <label class="check-row compact"><input id="redirectInactiveTabs" type="checkbox" checked><span><b>Redirect distracting tabs</b><small>Send other website navigation back to the current lesson during focus.</small></span></label>
+          <button class="button secondary full" type="submit" id="saveSettingsButton">Save preferences</button><p id="settingsStatus" class="success-message" aria-live="polite"></p>
+        </form>
+      </article>
+    </section>
+
+    <section class="tool-grid">
+      <article class="panel planner-panel">
+        <div class="panel-heading"><div><p class="eyebrow">PLAN THE WORK</p><h2>Study planner</h2></div><span class="panel-badge">REMINDERS</span></div>
+        <form id="planForm" class="tool-form">
+          <div class="field"><label for="planTitle">Plan title</label><input id="planTitle" required maxlength="180" placeholder="e.g. DSA — Binary Search"></div>
+          <div class="field"><label for="planUrl">YouTube video or playlist link</label><input id="planUrl" type="url" required placeholder="https://youtube.com/watch?v=…"></div>
+          <div class="form-row"><div class="field"><label for="planMode">Type</label><select id="planMode"><option value="video">Single video</option><option value="playlist">Playlist</option></select></div><div class="field"><label for="planMinutes">Expected minutes</label><input id="planMinutes" type="number" min="1" max="1440" value="30"></div></div>
+          <div class="field"><label for="planDueAt">Reminder date and time (optional)</label><input id="planDueAt" type="datetime-local"></div>
+          <button class="button primary" type="submit" id="savePlanButton">Add to study plan</button><p id="planStatus" class="success-message" aria-live="polite"></p>
+        </form>
+        <div id="planWeekSummary" class="plan-week-summary" aria-live="polite"></div><div id="planList" class="tool-list"><div class="empty-state">Your planned lessons will appear here.</div></div>
+      </article>
+      <article class="panel flashcard-panel">
+        <div class="panel-heading"><div><p class="eyebrow">ACTIVE RECALL</p><h2>Flashcards</h2></div><span id="flashcardDueCount" class="panel-badge">0 DUE</span></div>
+        <form id="flashcardForm" class="tool-form">
+          <div class="field"><label for="flashQuestion">Question / prompt</label><textarea id="flashQuestion" rows="2" maxlength="1000" required placeholder="What problem does binary search solve?"></textarea></div>
+          <div class="field"><label for="flashAnswer">Answer</label><textarea id="flashAnswer" rows="2" maxlength="2000" required placeholder="It searches a sorted collection by halving the search interval."></textarea></div>
+          <button class="button secondary" type="submit">Create flashcard</button><p id="flashcardStatus" class="success-message" aria-live="polite"></p>
+        </form>
+        <div class="tool-actions quiz-start-row"><button id="startQuizButton" class="button primary" type="button">Start a 5-card recall quiz</button></div><div id="quizPanel" class="quiz-panel" hidden><p class="eyebrow">ACTIVE RECALL QUIZ</p><div id="quizProgress" class="tool-item-meta">Question 1 of 5</div><h3 id="quizQuestion">Question</h3><textarea id="quizResponse" rows="3" placeholder="Write your answer before revealing the model answer…"></textarea><div id="quizAnswer" class="answer-box" hidden></div><div class="tool-actions"><button id="revealQuizAnswer" class="button secondary" type="button">Reveal answer</button><button id="quizAgain" class="button quiet" type="button" hidden>Need more practice</button><button id="quizKnown" class="button primary" type="button" hidden>I knew it</button><button id="closeQuiz" class="button quiet" type="button">Close quiz</button></div><p id="quizStatus" class="success-message" aria-live="polite"></p></div><div id="flashcardList" class="tool-list"><div class="empty-state">Create a card to build your revision deck.</div></div>
+      </article>
+    </section>
+
+    <section class="panel notes-panel">
+      <div class="panel-heading"><div><p class="eyebrow">YOUR PERSONAL KNOWLEDGE BASE</p><h2>Notes and bookmarks</h2></div><div class="button-pair"><button id="exportNotesButton" type="button" class="button secondary">Export notes (.md)</button><button id="printNotesButton" type="button" class="button secondary">Print / save PDF</button><button id="clearNotesSearchButton" type="button" class="button quiet">Clear search</button></div></div>
+      <div class="field"><label for="notesSearch">Search saved notes and bookmarks</label><input id="notesSearch" type="search" placeholder="Search title, note text, or timestamp…"></div>
+      <div id="notesLibrary" class="tool-list"><div class="empty-state">Notes and bookmarks will appear after you save them during a lesson.</div></div>
+    </section>
+
+    <section class="panel backup-panel">
+      <div class="panel-heading"><div><p class="eyebrow">PORTABILITY AND ACCESSIBILITY</p><h2>Backup, restore and display</h2></div><span class="panel-badge">LOCAL DATA</span></div>
+      <div class="backup-grid">
+        <div><p class="muted-copy">Export a complete backup of your settings, session reports, study plan and flashcards. Restoring is disabled while a study session is active.</p><div class="button-pair"><button id="backupButton" class="button secondary" type="button">Download backup</button><label class="button secondary file-button" for="restoreFile">Restore backup</label><input id="restoreFile" type="file" accept="application/json,.json" hidden></div><label class="check-row compact"><input id="syncEnabled" type="checkbox"><span><b>Sync saved data through Chrome</b><small>Uses Chrome Sync on other computers with this extension installed. Limited quota; keep manual backups too.</small></span></label><div class="button-pair"><button id="syncNowButton" class="button quiet" type="button">Sync now</button></div><p id="backupStatus" class="success-message" aria-live="polite"></p></div>
+        <div class="display-controls"><div class="field"><label for="fontScale">Dashboard text size</label><select id="fontScale"><option value="normal">Standard</option><option value="large">Large</option><option value="x-large">Extra large</option></select></div><label class="check-row compact"><input id="reduceMotion" type="checkbox"><span><b>Reduce animations</b><small>Minimise movement and transitions.</small></span></label><label class="check-row compact"><input id="captionsDefault" type="checkbox"><span><b>Prefer YouTube captions</b><small>Attempt to enable captions when supported by the video.</small></span></label><button id="saveDisplayButton" class="button secondary full" type="button">Save display preferences</button><p id="displayStatus" class="success-message" aria-live="polite"></p></div>
+      </div>
+    </section>
+
+    <section class="panel history-panel"><div class="panel-heading"><div><p class="eyebrow">YOUR WORK, REMEMBERED</p><h2>Recent study sessions</h2></div><span id="historyCount" class="panel-badge">0 REPORTS</span></div><div id="historyList" class="history-list"><div class="empty-state">Your completed and ended sessions will appear here.</div></div></section>
+    <section class="honesty-note"><span>✦</span><p><b>A realistic focus tool, not a tamper-proof kiosk.</b> Study Lock can redirect normal tab navigation and request that Chrome keep the display awake, but it cannot prevent you from closing Chrome, shutting down the computer, disabling the extension, or using another device. Playback coverage is a technical signal, not proof of attention.</p></section>
+  </main>
+  <footer class="footer"><span>STUDY LOCK <b>•</b> PRIVATE LOCAL ANALYTICS</span><span>Build consistency, one lesson at a time.</span></footer>
+  <script src="newtab.js"></script>
+</body>
+</html>

@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Study Lock</title><link rel="stylesheet" href="popup.css"></head>
+<body>
+  <main class="app">
+    <header class="brand-row"><div class="brand-mark">SL</div><div><h1>Study Lock</h1><p class="subtitle">One session. One learning goal.</p></div><span class="status-dot" id="statusDot"></span></header>
+    <section id="setupView">
+      <label for="youtubeUrl">YouTube video or playlist</label><input id="youtubeUrl" type="url" placeholder="https://www.youtube.com/watch?v=…" autocomplete="off" spellcheck="false" required>
+      <div class="field-row"><label for="mode">Session type</label><select id="mode"><option value="video">Single video</option><option value="playlist">Playlist</option></select></div>
+      <label class="check-row"><input id="closeOtherTabs" type="checkbox" checked><span><b>Close other tabs</b><small>Optional. Save work first.</small></span></label>
+      <div class="info-note"><span>1×</span><p>Study Lock uses YouTube's native player, enforces normal speed where possible, tracks unique watched coverage, and redirects distracting navigation.</p></div>
+      <button id="startButton" class="primary">Start focus session <span>→</span></button><p id="setupError" class="error" role="alert"></p>
+    </section>
+    <section id="activeView" hidden>
+      <div class="session-heading"><span class="eyebrow">FOCUS SESSION ACTIVE</span><h2 id="sessionTitle">Your lesson is active</h2><p id="sessionSubtitle">Playback and analytics are in the YouTube tab.</p></div>
+      <div class="progress-card"><div class="progress-head"><span>Unique watch coverage</span><strong id="progressPercent">0%</strong></div><div class="progress-track"><div id="progressFill" class="progress-fill"></div></div><div class="metric-grid"><div class="metric"><span>Covered</span><strong id="watchedTime">00:00</strong></div><div class="metric"><span>Remaining</span><strong id="remainingTime">--:--</strong></div><div class="metric"><span>Known total</span><strong id="totalTime">--:--</strong></div><div class="metric"><span>Videos done</span><strong id="videosDone">0 / 0</strong></div></div></div>
+      <p id="estimateNote" class="estimate-note">Playlist time is an estimate based on durations discovered so far.</p>
+      <div class="active-hint"><span class="pulse"></span><span>Open any new tab to return to your current lesson and analytics.</span></div>
+      <button id="resumeButton" class="secondary">Return to lesson</button><button id="endButton" class="secondary danger">End session now</button><p class="exit-note">Emergency exit: click End session, or press Alt+Shift+E (customizable at chrome://extensions/shortcuts). If the in-page control fails, open this extension popup and end the session here. Study Lock is a focus aid, not a tamper-proof kiosk.</p>
+    </section>
+    <section id="completeView" hidden><div class="complete-mark">✓</div><p class="eyebrow">SESSION SAVED</p><h2 id="completeTitle">Session ended.</h2><p id="completeBody">Your report, notes, and bookmarks are saved locally.</p><div class="progress-card"><div class="metric-grid"><div class="metric"><span>Watch coverage</span><strong id="finalWatched">00:00</strong></div><div class="metric"><span>Videos completed</span><strong id="finalVideos">0</strong></div></div></div><button id="resumeSavedButton" class="secondary" hidden>Resume unfinished lesson</button><button id="newSessionButton" class="primary">Plan another session <span>→</span></button></section>
+    <footer>STUDY LOCK <span>•</span> LOCAL-ONLY DATA</footer>
+  </main><script src="popup.js"></script>
+</body></html>
